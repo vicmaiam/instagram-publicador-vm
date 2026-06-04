@@ -1,0 +1,51 @@
+name: Publicar Instagram (1 por dia)
+
+on:
+  schedule:
+    # 12:00 UTC = 09:00 America/Sao_Paulo (BRT, UTC-3)
+    - cron: "0 12 * * *"
+  workflow_dispatch:        # permite rodar manualmente pelo botao "Run workflow"
+    inputs:
+      dry_run:
+        description: "Simular sem publicar (1 = sim)"
+        required: false
+        default: "0"
+
+permissions:
+  contents: write           # necessario pra commitar fila.json de volta
+
+concurrency:
+  group: publicar-instagram
+  cancel-in-progress: false
+
+jobs:
+  publicar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Publicar post do dia
+        env:
+          TZ: America/Sao_Paulo
+          GRAPH_HOST: graph.instagram.com
+          IG_USER_ID: ${{ secrets.IG_USER_ID || 'me' }}
+          ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+          IMG_BASE_URL: https://raw.githubusercontent.com/${{ github.repository }}/${{ github.ref_name }}/imagens
+          DRY_RUN: ${{ github.event.inputs.dry_run }}
+        run: python publish.py
+
+      - name: Commitar fila atualizada
+        run: |
+          if [[ -n "$(git status --porcelain fila.json)" ]]; then
+            git config user.name "github-actions[bot]"
+            git config user.email "github-actions[bot]@users.noreply.github.com"
+            git add fila.json
+            git commit -m "Marca post publicado [skip ci]"
+            git push
+          else
+            echo "Nada a commitar."
+          fi
