@@ -90,6 +90,7 @@ já publica o post 51. Os próximos saem sozinhos todo dia às 09:00.
 ## Limites e cuidados
 
 - Limite da Meta: 100 publicações por API a cada 24h (folga enorme para 1/dia).
-- Stories e Reels **não** são suportados por este fluxo (só foto única e carrossel).
+- A API publica foto, carrossel, vídeo/Reels e Stories. O `publish.py` atual faz **foto única**;
+  os outros tipos precisam estender o script. Imagens: doc pede JPEG, mas PNG funcionou na prática.
 - Se o token vencer, o workflow falha com erro 190 — basta gerar novo token e
   atualizar o secret `ACCESS_TOKEN`.
