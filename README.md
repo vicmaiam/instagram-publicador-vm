@@ -22,33 +22,27 @@ dia falhar, no dia seguinte ele pega o atrasado primeiro (sem furar a ordem).
 
 ## Setup (uma vez)
 
-### 1. Conta e app na Meta
+### 1. Conta e app na Meta (fluxo "login do Instagram")
 
 1. `@vmadvogados.prev` precisa ser conta **Profissional (Business)** e estar
    vinculada a uma **Página do Facebook**.
-2. Em [developers.facebook.com](https://developers.facebook.com) crie um app do
-   tipo **Business**.
-3. Adicione o produto **Instagram Graph API** (ou "Instagram" / "Facebook Login").
-4. No **Graph API Explorer**, gere um token com as permissões:
-   - `instagram_basic`
-   - `instagram_content_publish`
-   - `pages_show_list`
-   - `pages_read_engagement`
-   - `business_management`
-5. Descubra o **Instagram Business Account ID** (o `IG_USER_ID`):
-   - `GET /me/accounts` → pega o `id` da Página
-   - `GET /{page-id}?fields=instagram_business_account` → retorna o `IG_USER_ID`
-6. Troque o token curto por um **token de longa duração** (~60 dias):
-   ```
-   GET https://graph.facebook.com/v21.0/oauth/access_token
-       ?grant_type=fb_exchange_token
-       &client_id={APP_ID}
-       &client_secret={APP_SECRET}
-       &fb_exchange_token={TOKEN_CURTO}
-   ```
+2. Em [developers.facebook.com](https://developers.facebook.com) crie um app com o
+   caso de uso **"Gerenciar mensagens e conteúdo no Instagram"** (API do Instagram
+   com login do Instagram).
+3. Em **Permissões e recursos**, adicione:
+   - `instagram_business_basic`
+   - `instagram_business_content_publish`
+4. Em **Funções do app → Funções**, adicione `vmadvogados.prev` como
+   **Testador do Instagram** e **aceite o convite** dentro do app do Instagram
+   (Configurações → Apps e sites → Convites de testador). Sem isso, o token dá erro
+   "Função de desenvolvedor é insuficiente".
+5. Em **Configuração da API com login do Instagram**, conecte a conta e clique em
+   **Gerar token de acesso**. Esse token de longa duração (~60 dias) é o `ACCESS_TOKEN`.
 
-> O token de longa duração dura ~60 dias e cobre toda a campanha (50 dias). Antes
-> de vencer, gere outro e atualize o secret `ACCESS_TOKEN`.
+> O `IG_USER_ID` não é necessário: neste fluxo o script publica via `me` usando
+> `GRAPH_HOST=graph.instagram.com` (já configurado no workflow).
+> O token dura ~60 dias e cobre a campanha (50 dias). Antes de vencer, gere outro
+> e atualize o secret `ACCESS_TOKEN`.
 
 ### 2. Repositório no GitHub
 
@@ -56,8 +50,11 @@ dia falhar, no dia seguinte ele pega o atrasado primeiro (sem furar a ordem).
    pública; o token NUNCA fica no repo, vai como secret criptografado).
 2. Suba este conteúdo (veja comandos abaixo).
 3. Em **Settings → Secrets and variables → Actions → New repository secret**, crie:
-   - `IG_USER_ID` = o ID do passo 1.5
-   - `ACCESS_TOKEN` = o token de longa duração do passo 1.6
+   - `ACCESS_TOKEN` = o token gerado no passo 1.5
+4. Se o Actions acusar **"account is locked due to a billing issue"**, cadastre um
+   método de pagamento em [github.com/settings/billing](https://github.com/settings/billing).
+   Em repositório público o Actions é gratuito e ilimitado; o cartão é só para
+   desbloquear (não há cobrança).
 
 ### 3. Subir os arquivos
 
