@@ -274,9 +274,9 @@
     "data": "2026-07-04",
     "imagem": "81.png",
     "legenda": "O tempo para o INSS analisar o pedido do BPC LOAS pode variar, mas, em média, o processo leva de 30 a 60 dias após a entrada do pedido. Esse prazo pode ser maior dependendo da documentação necessária ou da complexidade do caso.\n\nSe houver a necessidade de documentos adicionais ou de uma revisão detalhada por parte do INSS, o processo pode demorar mais. Também é importante garantir que todos os dados e documentos estejam corretos para evitar atrasos.",
-    "publicado": false,
-    "media_id": null,
-    "publicado_em": null
+    "publicado": true,
+    "media_id": "18095593201993856",
+    "publicado_em": "2026-07-05T10:52:14-0300"
   },
   {
     "post": 82,
