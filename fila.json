@@ -319,9 +319,9 @@
     "data": "2026-07-09",
     "imagem": "86.png",
     "legenda": "Não, não é necessário ter contribuído para o INSS para ter direito ao BPC LOAS. O BPC LOAS é um benefício assistencial destinado a idosos (com 65 anos ou mais) e pessoas com deficiência que se encontram em situação de vulnerabilidade social.\n\nAo contrário dos benefícios previdenciários, como aposentadoria e auxílio-doença, o BPC LOAS não exige que o beneficiário tenha feito contribuições ao INSS ao longo da vida. O que importa é a situação de baixa renda e a incapacidade de prover a própria manutenção, seja por idade ou deficiência.",
-    "publicado": false,
-    "media_id": null,
-    "publicado_em": null
+    "publicado": true,
+    "media_id": "18602285086025569",
+    "publicado_em": "2026-07-10T11:40:20-0300"
   },
   {
     "post": 87,
